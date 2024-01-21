@@ -13,7 +13,24 @@ def extract_live_chat_text_message_render(dat: dict) -> dict:
 
 
 def extract_message_text(message_render: dict) -> str:
-    return message_render["message"]["runs"][0]["text"]
+    number_of_messages = len(message_render["message"]["runs"])
+    connected_text = ""
+    for i in range(number_of_messages):
+        connected_text += extract_partial_text(message_render["message"]["runs"][i])
+    return connected_text
+
+
+def extract_partial_text(partial_text_dict):
+    if "text" in partial_text_dict.keys():
+        return partial_text_dict["text"]
+    elif "emoji" in partial_text_dict.keys():
+        return convert_emoji_to_emoji_text(partial_text_dict["emoji"])
+
+
+def convert_emoji_to_emoji_text(emoji_dict):
+    emoji_text = "emoji_" + emoji_dict["shortcuts"][0]
+    # TODO: ここでemoji_textとsvgの対応関係を辞書にする.
+    return emoji_text
 
 
 def extract_author_ch_id(message_render: dict) -> str:

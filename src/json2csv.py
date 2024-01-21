@@ -56,7 +56,7 @@ def make_dataframe(file_path):
             extractor.extract_timestamp_text(message_render)
         )
         message_dict["message_text"].append(
-            extractor.extract_author_ch_id(message_render)
+            extractor.extract_message_text(message_render)
         )
         message_dict["author_ch_id"].append(
             extractor.extract_author_ch_id(message_render)
