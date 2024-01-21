@@ -28,9 +28,12 @@ def extract_partial_text(partial_text_dict):
 
 
 def convert_emoji_to_emoji_text(emoji_dict):
-    emoji_text = "emoji_" + emoji_dict["shortcuts"][0]
-    # TODO: ここでemoji_textとsvgの対応関係を辞書にする.
-    return emoji_text
+    # TODO: emoji_textとsvgの対応関係を辞書にする.
+    if "shortcuts" in emoji_dict.keys():
+        emoji_text = "emoji_" + emoji_dict["shortcuts"][0]
+        return emoji_text
+    else:
+        return emoji_dict["emojiId"]
 
 
 def extract_author_ch_id(message_render: dict) -> str:

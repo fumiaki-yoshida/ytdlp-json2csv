@@ -34,6 +34,19 @@ def make_dataframe(file_path):
 
     for dat in comments:
         if (
+            "removeBannerForLiveChatCommand"
+            in dat["replayChatItemAction"]["actions"][0].keys()
+        ):
+            # おそらくslow_modeを配信者が設定したお知らせ。
+            continue
+
+        elif (
+            "addBannerToLiveChatCommand"
+            in dat["replayChatItemAction"]["actions"][0].keys()
+        ):
+            # ピン止めされたコメントについての行
+            continue
+        elif (
             "liveChatTextMessageRenderer"
             in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
                 "item"
@@ -46,6 +59,9 @@ def make_dataframe(file_path):
                 "item"
             ].keys()
         ):
+            continue
+
+        elif "removeBannerForLiveChatCommand" in dat["replayChatItemActionda"].keys():
             continue
         else:
             import pdb
