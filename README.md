@@ -13,6 +13,6 @@ This program convert yt-dlp's `live_chat.json` to csv.
   
 ## How To USE
 
-1. 拡張子が`live_chat.json`の変換したいファイルを`data/raw`フォルダーに入れる。rawフォルダーのファイルはすべてcsvファイルに変換されるので注意する。
+1. 拡張子が`live_chat.json`の変換したいファイルを`data/raw`フォルダーに入れる。rawフォルダーの拡張子が`.live_chat.json`ファイルはすべてcsvファイルに変換されるので注意する。
 2. `convert_file.py` を実行する。
 3. 出力結果が`data/converted`にcsvファイルとして出力されるので確認をする。
