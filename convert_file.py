@@ -24,7 +24,7 @@ def exec_convert(raw_path):
     if not os.path.exists(converted_path):
         make_converted_folder(converted_path)
         df = json2csv.make_dataframe(raw_path)
-        df.to_csv(converted_path)
+        df.to_csv(converted_path, encoding="utf_8_sig")
     else:
         return
 
