@@ -18,7 +18,7 @@ def test_split_comment_and_clickTrackingParams():
     assert len(comments) > len(click_tp)
 
 
-def test_make_datframe():
+def test_make_dataframe():
     df = json2csv.make_dataframe(sample_file_path)
     assert "offset_time" in df.columns
     assert "timestamp_text" in df.columns
