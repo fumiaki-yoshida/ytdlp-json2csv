@@ -1,10 +1,29 @@
 import pandas as pd
-import json
+from box import Box
 
 
-def extract_offset_time(dat: dict) -> int:
-    offset_time = int(dat["replayChatItemAction"]["videoOffsetTimeMsec"])
-    return offset_time
+def convert_emoji_to_emoji_text(emoji_dict):
+    # TODO: emoji_textとsvgの対応関係を辞書にする.
+    if "shortcuts" in emoji_dict.keys():
+        emoji_text = "emoji_" + emoji_dict["shortcuts"][0]
+        return emoji_text
+    else:
+        return emoji_dict["emojiId"]
+
+
+class TextBox:
+    def __init__(self, dat):
+        self.box = Box(dat)
+
+    def extract_offset_time(self):
+        offset_time = self.box.replayChatItemAction.videoOffsetTimeMsec
+        return int(offset_time)
+
+    """
+    def extract_offset_time(dat: dict) -> int:
+        offset_time = int(dat["replayChatItemAction"]["videoOffsetTimeMsec"])
+        return offset_time
+    """
 
 
 def extract_live_chat_text_message_render(dat: dict) -> dict:
@@ -25,15 +44,6 @@ def extract_partial_text(partial_text_dict):
         return partial_text_dict["text"]
     elif "emoji" in partial_text_dict.keys():
         return convert_emoji_to_emoji_text(partial_text_dict["emoji"])
-
-
-def convert_emoji_to_emoji_text(emoji_dict):
-    # TODO: emoji_textとsvgの対応関係を辞書にする.
-    if "shortcuts" in emoji_dict.keys():
-        emoji_text = "emoji_" + emoji_dict["shortcuts"][0]
-        return emoji_text
-    else:
-        return emoji_dict["emojiId"]
 
 
 def extract_author_ch_id(message_render: dict) -> str:
