@@ -64,20 +64,17 @@ def make_dataframe(file_path):
         elif "removeBannerForLiveChatCommand" in dat["replayChatItemActionda"].keys():
             continue
         else:
-            import pdb
-
-            pdb.set_trace()
-        message_dict["offset_time"].append(extractor.extract_offset_time(dat))
-        message_dict["timestamp_text"].append(
-            extractor.extract_timestamp_text(message_render)
-        )
-        message_dict["message_text"].append(
-            extractor.extract_message_text(message_render)
-        )
-        message_dict["author_ch_id"].append(
-            extractor.extract_author_ch_id(message_render)
-        )
-        message_dict["author_name"].append(
-            extractor.extract_author_name(message_render)
-        )
+            message_dict["offset_time"].append(extractor.extract_offset_time(dat))
+            message_dict["timestamp_text"].append(
+                extractor.extract_timestamp_text(message_render)
+            )
+            message_dict["message_text"].append(
+                extractor.extract_message_text(message_render)
+            )
+            message_dict["author_ch_id"].append(
+                extractor.extract_author_ch_id(message_render)
+            )
+            message_dict["author_name"].append(
+                extractor.extract_author_name(message_render)
+            )
     return pd.DataFrame(message_dict)
