@@ -2,7 +2,7 @@ import pandas as pd
 from box import Box
 
 
-def convert_emoji_to_emoji_text(emoji_dict):
+def _convert_emoji_to_emoji_text(emoji_dict):
     # TODO: emoji_textとsvgの対応関係を辞書にする.
     if "shortcuts" in emoji_dict.keys():
         emoji_text = "emoji_" + emoji_dict["shortcuts"][0]
@@ -15,7 +15,7 @@ def _extract_partial_text(partial_text_dict):
     if "text" in partial_text_dict.keys():
         return partial_text_dict["text"]
     elif "emoji" in partial_text_dict.keys():
-        return convert_emoji_to_emoji_text(partial_text_dict["emoji"])
+        return _convert_emoji_to_emoji_text(partial_text_dict["emoji"])
 
 
 class TextBox:
