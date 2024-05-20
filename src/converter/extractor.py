@@ -38,6 +38,9 @@ class TextBox:
         for message in number_of_messages:
             connected_text += _extract_partial_text(message)
         return connected_text
+    
+    def extract_author_ch_id(self) -> str:
+        return self.message_render.authorExternalChannelId
 
 
 def extract_live_chat_text_message_render(dat: dict) -> dict:
@@ -53,8 +56,7 @@ def extract_message_text(message_render: dict) -> str:
     return connected_text
 
 
-def extract_author_ch_id(message_render: dict) -> str:
-    return message_render["authorExternalChannelId"]
+
 
 
 def extract_author_name(message_render: dict) -> str:

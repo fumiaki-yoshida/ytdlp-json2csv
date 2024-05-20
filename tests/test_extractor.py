@@ -34,8 +34,8 @@ class TestTextExtract:
         assert type(message_text) == str
 
     def test_extract_author_ch_id(self, dat):
-        message_render = extractor.extract_live_chat_text_message_render(dat)
-        author_ch_id = extractor.extract_author_ch_id(message_render)
+        box = extractor.TextBox(dat)
+        author_ch_id = box.extract_author_ch_id()
         assert len(author_ch_id) > 5
         assert type(author_ch_id) == str
 
