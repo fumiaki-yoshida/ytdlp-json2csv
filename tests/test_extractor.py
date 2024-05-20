@@ -30,7 +30,7 @@ class TestTextExtract:
 
     def test_extract_message_text(self, dat):
         box = extractor.TextBox(dat)
-        message_text = box.extract_message_text() 
+        message_text = box.extract_message_text()
         assert type(message_text) == str
 
     def test_extract_author_ch_id(self, dat):
@@ -40,12 +40,10 @@ class TestTextExtract:
         assert type(author_ch_id) == str
 
     def test_extract_author_name(self, dat):
-        message_render = extractor.extract_live_chat_text_message_render(dat)
-        author_name = extractor.extract_author_name(message_render)
+        box = extractor.TextBox(dat)
+        author_name = box.extract_author_name()
         assert len(author_name) > 0
         assert type(author_name) == str
-
-
 
 
 """"
