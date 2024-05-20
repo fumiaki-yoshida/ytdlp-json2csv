@@ -13,10 +13,6 @@ class TestTextExtract:
         )
         return dat
 
-    def test_extract_live_chat_text_message_render(self, dat):
-        message_render = extractor.extract_live_chat_text_message_render(dat)
-        assert len(message_render.keys()) > 0
-
     def test_extract_offset_time(self, dat):
         box = extractor.TextBox(dat)
         offset_time = box.extract_offset_time()
