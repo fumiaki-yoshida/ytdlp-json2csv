@@ -22,9 +22,15 @@ class TestTextExtract:
         offset_time = box.extract_offset_time()
         assert type(offset_time) == int
 
+    def test_extract_timestamp_text(self, dat):
+        box = extractor.TextBox(dat)
+        timestamp_text = box.extract_extract_timestamp_text()
+        assert len(timestamp_text) > 0
+        assert type(timestamp_text) == str
+
     def test_extract_message_text(self, dat):
-        message_render = extractor.extract_live_chat_text_message_render(dat)
-        message_text = extractor.extract_message_text(message_render)
+        box = extractor.TextBox(dat)
+        message_text = box.extract_message_text() 
         assert type(message_text) == str
 
     def test_extract_author_ch_id(self, dat):
@@ -39,11 +45,7 @@ class TestTextExtract:
         assert len(author_name) > 0
         assert type(author_name) == str
 
-    def test_extract_timestamp_text(self, dat):
-        message_render = extractor.extract_live_chat_text_message_render(dat)
-        timestamp_text = extractor.extract_timestamp_text(message_render)
-        assert len(timestamp_text) > 0
-        assert type(timestamp_text) == str
+
 
 
 """"
