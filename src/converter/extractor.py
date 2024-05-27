@@ -44,3 +44,12 @@ class TextBox:
 
     def extract_author_name(self) -> str:
         return self.message_render.authorName.simpleText
+
+
+class SuperChatBox:
+    def __init__(self,dat):
+        self.box = Box(dat)
+        self.paid_message = self.box.replayChatItemAction.actions[0].addChatItemAction.item.liveChatPaidMessageRenderer
+    
+    def extract_supacha(self) -> str:
+        return self.paid_message.purchaseAmountText.simpleText

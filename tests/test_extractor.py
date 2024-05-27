@@ -42,7 +42,7 @@ class TestTextExtract:
         assert type(author_name) == str
 
 
-""""
+
 class TestSuparchatExtractor:
     @pytest.fixture
     def dat(self):
@@ -52,7 +52,6 @@ class TestSuparchatExtractor:
         return dat
     
     
-    def test_extract_live_chat_text_message_render(self,dat):
-        message_render = extractor.extract_live_chat_text_message_render(dat)
-        assert len(message_render.keys()) > 0
-"""
+    def test_extract_supacha_money(self,dat):
+        box = extractor.SuperChatBox(dat)
+        assert "¥370" == box.extract_supacha() 
