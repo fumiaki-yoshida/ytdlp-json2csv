@@ -47,9 +47,32 @@ class TextBox:
 
 
 class SuperChatBox:
-    def __init__(self,dat):
+    def __init__(self, dat):
         self.box = Box(dat)
-        self.paid_message = self.box.replayChatItemAction.actions[0].addChatItemAction.item.liveChatPaidMessageRenderer
-    
+        self.paid_message = self.box.replayChatItemAction.actions[
+            0
+        ].addChatItemAction.item.liveChatPaidMessageRenderer
+
     def extract_supacha(self) -> str:
         return self.paid_message.purchaseAmountText.simpleText
+
+    def extract_offset_time(self) -> str:
+        return self.box.replayChatItemAction.videoOffsetTimeMsec
+
+    def extract_timestamp_text(self):
+        return self.paid_message.timestampText.simpleText
+
+    def extract_message_text(self):
+        if not "message" in self.paid_message.keys():
+            return ""
+        number_of_messages = self.paid_message.message.runs
+        connected_text = ""
+        for message in number_of_messages:
+            connected_text += _extract_partial_text(message)
+        return connected_text
+
+    def extract_author_ch_id(self):
+        return self.paid_message.authorExternalChannelId
+
+    def extract_author_name(self):
+        return self.paid_message.authorName.simpleText
