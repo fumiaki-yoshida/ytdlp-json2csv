@@ -50,6 +50,12 @@ class TestSuparchatExtractor:
         )
         return dat
 
+    def dat2(self):
+        dat = json.loads(
+            '{"clickTrackingParams": "CAEQl98BIhMIs7qIyKuEgwMVmchMAh0LIwfj", "replayChatItemAction": {"actions": [{"clickTrackingParams": "CAEQl98BIhMIs7qIyKuEgwMVmchMAh0LIwfj", "addChatItemAction": {"item": {"liveChatPaidMessageRenderer": {"id": "ChwKGkNLUGg3N3otMllJREZTUEN3Z1FkSWxrRTJB", "timestampUsec": "1700737983561607", "authorName": {"simpleText": "Jack Krauser"}, "authorPhoto": {"thumbnails": [{"url": "https://yt4.ggpht.com/ytc/APkrFKZx0LwFARGyWQmtlUlNeq1XcwEe0JZhstf6cQ=s32-c-k-c0x00ffffff-no-rj", "width": 32, "height": 32}, {"url": "https://yt4.ggpht.com/ytc/APkrFKZx0LwFARGyWQmtlUlNeq1XcwEe0JZhstf6cQ=s64-c-k-c0x00ffffff-no-rj", "width": 64, "height": 64}]}, "purchaseAmountText": {"simpleText": "NT$30.00"}, "message": {"runs": [{"text": "ヴォカルすげー"}]}, "headerBackgroundColor": 4278237396, "headerTextColor": 4278190080, "bodyBackgroundColor": 4278248959, "bodyTextColor": 4278190080, "authorExternalChannelId": "UCo_8LZtKaasyYncLnKjnMXA", "authorNameTextColor": 3003121664, "contextMenuEndpoint": {"clickTrackingParams": "CAIQ7rsEIhMIs7qIyKuEgwMVmchMAh0LIwfj", "commandMetadata": {"webCommandMetadata": {"ignoreNavigation": true}}, "liveChatItemContextMenuEndpoint": {"params": "Q2g0S0hBb2FRMHRRYURjM2VpMHlXVWxFUmxOUVEzZG5VV1JKYkd0Rk1rRWFLU29uQ2hoVlEwbGtSVWxJY0ZNd1ZHUnJjVkpyU0V3MVQydE1kRUVTQzNaWlVHTnBVMXBQYVVOVklBRW9BVElhQ2hoVlEyOWZPRXhhZEV0aFlYTjVXVzVqVEc1TGFtNU5XRUU0QWtnQlVBOCUzRA=="}}, "timestampColor": 2147483648, "contextMenuAccessibility": {"accessibilityData": {"label": "Chat actions"}}, "timestampText": {"simpleText": "13:36"}, "trackingParams": "CAIQ7rsEIhMIs7qIyKuEgwMVmchMAh0LIwfj", "textInputBackgroundColor": 822083583, "creatorHeartButton": {"creatorHeartViewModel": {"creatorThumbnail": {"sources": [{"url": "https://yt3.ggpht.com/Qj-lyidMW6xtEdnv6rDYscGE1kO6K06-i4v8Eiij96YOTo_WdBboLVlEKeE3749ywpyqTec2=s48-c-k-c0x00ffffff-no-rj"}]}, "heartedIcon": {"sources": [{"clientResource": {"imageName": "full_heart-filled"}}]}, "unheartedIcon": {"sources": [{"clientResource": {"imageName": "full_heart"}}], "processor": {"borderImageProcessor": {"imageTint": {"color": 4278190080}}}}, "heartedHoverText": "❤ by さなちゃんねる", "heartedAccessibilityLabel": "Remove heart", "unheartedAccessibilityLabel": "Heart", "engagementStateKey": "EktsaXZlLWNoYXQtbWVzc2FnZS1lbmdhZ2VtZW50LXN0YXRlLUNod0tHa05MVUdnM04zb3RNbGxKUkVaVFVFTjNaMUZrU1d4clJUSkIgLCgB"}}, "isV2Style": true}}, "clientId": "CKPh77z-2YIDFSPCwgQdIlkE2A"}}], "videoOffsetTimeMsec": "816855"}}'
+        )
+        return dat
+
     def test_extract_supacha_money(self, dat):
         box = extractor.SuperChatBox(dat)
         assert "¥370" == box.extract_supacha()
@@ -62,10 +68,12 @@ class TestSuparchatExtractor:
         box = extractor.SuperChatBox(dat)
         assert "45:29" == box.extract_timestamp_text()
 
-    def test_extract_message_text(self, dat):
+    def test_extract_message_text(self, dat, dat2):
         box = extractor.SuperChatBox(dat)
         assert "" == box.extract_message_text()
-        # TODO: スパチャでメッセージが入っているケースのデータを用意する。
+
+        box2 = extractor.SuperChatBox(dat)
+        assert "ヴォカルすげー" == box.extract_message_text()
 
     def test_extract_author_ch_id(self, dat):
         box = extractor.SuperChatBox(dat)
