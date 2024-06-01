@@ -25,4 +25,5 @@ def test_make_dataframe():
     assert "message_text" in df.columns
     assert "author_ch_id" in df.columns
     assert "author_name" in df.columns
+    assert df.shape[0] > 1
     assert df.isnull().values.sum() == 0

@@ -20,7 +20,7 @@ class TestTextExtract:
 
     def test_extract_timestamp_text(self, dat):
         box = extractor.TextBox(dat)
-        timestamp_text = box.extract_extract_timestamp_text()
+        timestamp_text = box.extract_timestamp_text()
         assert len(timestamp_text) > 0
         assert type(timestamp_text) == str
 
@@ -40,3 +40,46 @@ class TestTextExtract:
         author_name = box.extract_author_name()
         assert len(author_name) > 0
         assert type(author_name) == str
+
+
+class TestSuparchatExtractor:
+    @pytest.fixture
+    def dat(self):
+        dat = json.loads(
+            '{"clickTrackingParams": "CAEQl98BIhMI4bHM36iEgwMVStY0Bx1_ngeP", "replayChatItemAction": {"actions": [{"clickTrackingParams": "CAEQl98BIhMI4bHM36iEgwMVStY0Bx1_ngeP", "addChatItemAction": {"item": {"liveChatPaidMessageRenderer": {"id": "ChwKGkNOX205ZlhoXzRJREZlREN3Z1FkVXRNREdB", "timestampUsec": "1702035936310277", "authorName": {"simpleText": "Elegy"}, "authorPhoto": {"thumbnails": [{"url": "https://yt4.ggpht.com/ytc/APkrFKY9fleb21ELh-a9N7khP1UQKw4vpEmhG672zwV9EA=s32-c-k-c0x00ffffff-no-rj", "width": 32, "height": 32}, {"url": "https://yt4.ggpht.com/ytc/APkrFKY9fleb21ELh-a9N7khP1UQKw4vpEmhG672zwV9EA=s64-c-k-c0x00ffffff-no-rj", "width": 64, "height": 64}]}, "purchaseAmountText": {"simpleText": "¥370"}, "headerBackgroundColor": 4278237396, "headerTextColor": 4278190080, "bodyBackgroundColor": 4278248959, "bodyTextColor": 4278190080, "authorExternalChannelId": "UCld0xQDcgJ4cijHI4DgSLIg", "authorNameTextColor": 3003121664, "contextMenuEndpoint": {"clickTrackingParams": "CAIQ7rsEIhMI4bHM36iEgwMVStY0Bx1_ngeP", "commandMetadata": {"webCommandMetadata": {"ignoreNavigation": true}}, "liveChatItemContextMenuEndpoint": {"params": "Q2g0S0hBb2FRMDVmYlRsbVdHaGZORWxFUm1WRVEzZG5VV1JWZEUxRVIwRWFLU29uQ2hoVlEwbGtSVWxJY0ZNd1ZHUnJjVkpyU0V3MVQydE1kRUVTQzI1RkxWQjVOMU5XT0VsUklBRW9BVElhQ2hoVlEyeGtNSGhSUkdOblNqUmphV3BJU1RSRVoxTk1TV2M0QWtnQlVBOCUzRA=="}}, "timestampColor": 2147483648, "contextMenuAccessibility": {"accessibilityData": {"label": "Chat actions"}}, "timestampText": {"simpleText": "45:29"}, "trackingParams": "CAIQ7rsEIhMI4bHM36iEgwMVStY0Bx1_ngeP", "textInputBackgroundColor": 822083583, "creatorHeartButton": {"creatorHeartViewModel": {"creatorThumbnail": {"sources": [{"url": "https://yt3.ggpht.com/Qj-lyidMW6xtEdnv6rDYscGE1kO6K06-i4v8Eiij96YOTo_WdBboLVlEKeE3749ywpyqTec2=s48-c-k-c0x00ffffff-no-rj"}]}, "heartedIcon": {"sources": [{"clientResource": {"imageName": "full_heart-filled"}}]}, "unheartedIcon": {"sources": [{"clientResource": {"imageName": "full_heart"}}], "processor": {"borderImageProcessor": {"imageTint": {"color": 4278190080}}}}, "heartedHoverText": "❤ by さなちゃんねる", "heartedAccessibilityLabel": "Remove heart", "unheartedAccessibilityLabel": "Heart", "engagementStateKey": "EktsaXZlLWNoYXQtbWVzc2FnZS1lbmdhZ2VtZW50LXN0YXRlLUNod0tHa05PWDIwNVpsaG9YelJKUkVabFJFTjNaMUZrVlhSTlJFZEIgLCgB"}}, "isV2Style": true}}, "clientId": "CN_m9fXh_4IDFeDCwgQdUtMDGA"}}], "videoOffsetTimeMsec": "2729188"}}'
+        )
+        return dat
+
+    @pytest.fixture
+    def dat2(self):
+        dat = json.loads(
+            '{"clickTrackingParams": "CAEQl98BIhMIs7qIyKuEgwMVmchMAh0LIwfj", "replayChatItemAction": {"actions": [{"clickTrackingParams": "CAEQl98BIhMIs7qIyKuEgwMVmchMAh0LIwfj", "addChatItemAction": {"item": {"liveChatPaidMessageRenderer": {"id": "ChwKGkNLUGg3N3otMllJREZTUEN3Z1FkSWxrRTJB", "timestampUsec": "1700737983561607", "authorName": {"simpleText": "Jack Krauser"}, "authorPhoto": {"thumbnails": [{"url": "https://yt4.ggpht.com/ytc/APkrFKZx0LwFARGyWQmtlUlNeq1XcwEe0JZhstf6cQ=s32-c-k-c0x00ffffff-no-rj", "width": 32, "height": 32}, {"url": "https://yt4.ggpht.com/ytc/APkrFKZx0LwFARGyWQmtlUlNeq1XcwEe0JZhstf6cQ=s64-c-k-c0x00ffffff-no-rj", "width": 64, "height": 64}]}, "purchaseAmountText": {"simpleText": "NT$30.00"}, "message": {"runs": [{"text": "ヴォカルすげー"}]}, "headerBackgroundColor": 4278237396, "headerTextColor": 4278190080, "bodyBackgroundColor": 4278248959, "bodyTextColor": 4278190080, "authorExternalChannelId": "UCo_8LZtKaasyYncLnKjnMXA", "authorNameTextColor": 3003121664, "contextMenuEndpoint": {"clickTrackingParams": "CAIQ7rsEIhMIs7qIyKuEgwMVmchMAh0LIwfj", "commandMetadata": {"webCommandMetadata": {"ignoreNavigation": true}}, "liveChatItemContextMenuEndpoint": {"params": "Q2g0S0hBb2FRMHRRYURjM2VpMHlXVWxFUmxOUVEzZG5VV1JKYkd0Rk1rRWFLU29uQ2hoVlEwbGtSVWxJY0ZNd1ZHUnJjVkpyU0V3MVQydE1kRUVTQzNaWlVHTnBVMXBQYVVOVklBRW9BVElhQ2hoVlEyOWZPRXhhZEV0aFlYTjVXVzVqVEc1TGFtNU5XRUU0QWtnQlVBOCUzRA=="}}, "timestampColor": 2147483648, "contextMenuAccessibility": {"accessibilityData": {"label": "Chat actions"}}, "timestampText": {"simpleText": "13:36"}, "trackingParams": "CAIQ7rsEIhMIs7qIyKuEgwMVmchMAh0LIwfj", "textInputBackgroundColor": 822083583, "creatorHeartButton": {"creatorHeartViewModel": {"creatorThumbnail": {"sources": [{"url": "https://yt3.ggpht.com/Qj-lyidMW6xtEdnv6rDYscGE1kO6K06-i4v8Eiij96YOTo_WdBboLVlEKeE3749ywpyqTec2=s48-c-k-c0x00ffffff-no-rj"}]}, "heartedIcon": {"sources": [{"clientResource": {"imageName": "full_heart-filled"}}]}, "unheartedIcon": {"sources": [{"clientResource": {"imageName": "full_heart"}}], "processor": {"borderImageProcessor": {"imageTint": {"color": 4278190080}}}}, "heartedHoverText": "❤ by さなちゃんねる", "heartedAccessibilityLabel": "Remove heart", "unheartedAccessibilityLabel": "Heart", "engagementStateKey": "EktsaXZlLWNoYXQtbWVzc2FnZS1lbmdhZ2VtZW50LXN0YXRlLUNod0tHa05MVUdnM04zb3RNbGxKUkVaVFVFTjNaMUZrU1d4clJUSkIgLCgB"}}, "isV2Style": true}}, "clientId": "CKPh77z-2YIDFSPCwgQdIlkE2A"}}], "videoOffsetTimeMsec": "816855"}}'
+        )
+        return dat
+
+    def test_extract_supacha_money(self, dat):
+        box = extractor.SuperChatBox(dat)
+        assert "¥370" == box.extract_fee_str()
+
+    def test_extract_offset_time(self, dat):
+        box = extractor.SuperChatBox(dat)
+        assert "2729188" == box.extract_offset_time()
+
+    def test_extract_extract_timestamp_text(self, dat):
+        box = extractor.SuperChatBox(dat)
+        assert "45:29" == box.extract_timestamp_text()
+
+    def test_extract_message_text(self, dat, dat2):
+        box = extractor.SuperChatBox(dat)
+        assert "" == box.extract_message_text()
+
+        box2 = extractor.SuperChatBox(dat2)
+        assert "ヴォカルすげー" == box2.extract_message_text()
+
+    def test_extract_author_ch_id(self, dat):
+        box = extractor.SuperChatBox(dat)
+        assert "UCld0xQDcgJ4cijHI4DgSLIg" == box.extract_author_ch_id()
+
+    def test_extract_author_name(self, dat):
+        box = extractor.SuperChatBox(dat)
+        assert "Elegy" == box.extract_author_name()
