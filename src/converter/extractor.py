@@ -29,7 +29,7 @@ class TextBox:
         offset_time = self.box.replayChatItemAction.videoOffsetTimeMsec
         return int(offset_time)
 
-    def extract_extract_timestamp_text(self):
+    def extract_timestamp_text(self):
         return self.message_render.timestampText.simpleText
 
     def extract_message_text(self):

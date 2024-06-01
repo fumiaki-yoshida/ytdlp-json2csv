@@ -52,8 +52,12 @@ def make_dataframe(file_path):
                 "item"
             ].keys()
         ):
-            # message_render = extractor.extract_live_chat_text_message_render(dat)
-            box = extractor.Box(dat)
+            box = extractor.TextBox(dat)
+            message_dict["offset_time"].append(box.extract_offset_time())
+            message_dict["timestamp_text"].append(box.extract_timestamp_text())
+            message_dict["message_text"].append(box.extract_message_text())
+            message_dict["author_ch_id"].append(box.extract_author_ch_id())
+            message_dict["author_name"].append(box.extract_author_name())
         elif (
             "liveChatPlaceholderItemRenderer"
             in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
@@ -62,20 +66,7 @@ def make_dataframe(file_path):
         ):
             continue
 
-        elif "removeBannerForLiveChatCommand" in dat["replayChatItemActionda"].keys():
+        elif "removeBannerForLiveChatCommand" in dat["replayChatItemAction"].keys():
             continue
-        else:
-            message_dict["offset_time"].append(box.extract_offset_time())
-            message_dict["timestamp_text"].append(
-                box.extract_timestamp_text()
-            )
-            message_dict["message_text"].append(
-                box.extract_message_text()
-            )
-            message_dict["author_ch_id"].append(
-                box.extract_author_ch_id()
-            )
-            message_dict["author_name"].append(
-                box.extract_author_name()
-            )
+
     return pd.DataFrame(message_dict)

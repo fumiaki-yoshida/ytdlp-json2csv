@@ -20,7 +20,7 @@ class TestTextExtract:
 
     def test_extract_timestamp_text(self, dat):
         box = extractor.TextBox(dat)
-        timestamp_text = box.extract_extract_timestamp_text()
+        timestamp_text = box.extract_timestamp_text()
         assert len(timestamp_text) > 0
         assert type(timestamp_text) == str
 
