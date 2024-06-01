@@ -53,7 +53,7 @@ class SuperChatBox:
             0
         ].addChatItemAction.item.liveChatPaidMessageRenderer
 
-    def extract_supacha(self) -> str:
+    def extract_fee_str(self) -> str:
         return self.paid_message.purchaseAmountText.simpleText
 
     def extract_offset_time(self) -> str:

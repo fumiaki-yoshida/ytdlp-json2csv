@@ -59,7 +59,7 @@ class TestSuparchatExtractor:
 
     def test_extract_supacha_money(self, dat):
         box = extractor.SuperChatBox(dat)
-        assert "¥370" == box.extract_supacha()
+        assert "¥370" == box.extract_fee_str()
 
     def test_extract_offset_time(self, dat):
         box = extractor.SuperChatBox(dat)

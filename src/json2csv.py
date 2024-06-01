@@ -21,6 +21,28 @@ def split_comment_and_clickTrackingParams(lines):
     return comments, click_tp
 
 
+def make_dict_with_TextBox(dat, message_dict):
+    box = extractor.TextBox(dat)
+    message_dict["offset_time"].append(box.extract_offset_time())
+    message_dict["timestamp_text"].append(box.extract_timestamp_text())
+    message_dict["message_text"].append(box.extract_message_text())
+    message_dict["author_ch_id"].append(box.extract_author_ch_id())
+    message_dict["author_name"].append(box.extract_author_name())
+    message_dict["fee"].append("")
+    return message_dict
+
+
+def make_dict_with_SuperChatBox(dat, message_dict):
+    box = extractor.SuperChatBox(dat)
+    message_dict["offset_time"].append(box.extract_offset_time())
+    message_dict["timestamp_text"].append(box.extract_timestamp_text())
+    message_dict["message_text"].append(box.extract_message_text())
+    message_dict["author_ch_id"].append(box.extract_author_ch_id())
+    message_dict["author_name"].append(box.extract_author_name())
+    message_dict["fee"].append(box.extract_fee_str())
+    return message_dict
+
+
 def make_dataframe(file_path):
     lines = open_files2list(file_path)
     comments, _ = split_comment_and_clickTrackingParams(lines)
@@ -30,6 +52,7 @@ def make_dataframe(file_path):
         "message_text": [],
         "author_ch_id": [],
         "author_name": [],
+        "fee": [],
     }
 
     for dat in comments:
@@ -52,12 +75,15 @@ def make_dataframe(file_path):
                 "item"
             ].keys()
         ):
-            box = extractor.TextBox(dat)
-            message_dict["offset_time"].append(box.extract_offset_time())
-            message_dict["timestamp_text"].append(box.extract_timestamp_text())
-            message_dict["message_text"].append(box.extract_message_text())
-            message_dict["author_ch_id"].append(box.extract_author_ch_id())
-            message_dict["author_name"].append(box.extract_author_name())
+            message_dict = make_dict_with_TextBox(dat, message_dict)
+
+        elif (
+            "liveChatPaidMessageRenderer"
+            in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
+                "item"
+            ].keys()
+        ):
+            message_dict = make_dict_with_SuperChatBox(dat, message_dict)
         elif (
             "liveChatPlaceholderItemRenderer"
             in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
