@@ -1,4 +1,4 @@
-import pandas as pd
+from abc import ABC, abstractmethod
 from box import Box
 
 
@@ -16,6 +16,13 @@ def _extract_partial_text(partial_text_dict):
         return partial_text_dict["text"]
     elif "emoji" in partial_text_dict.keys():
         return _convert_emoji_to_emoji_text(partial_text_dict["emoji"])
+
+
+"""
+class ActionArchive:
+    def __init__(self,action):
+        self.
+"""
 
 
 class TextBox:

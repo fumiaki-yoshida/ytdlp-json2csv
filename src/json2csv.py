@@ -43,9 +43,60 @@ def make_dict_with_SuperChatBox(dat, message_dict):
     return message_dict
 
 
+def _has_addChatItemAction(dat):
+    return "addChatItemAction" in dat["replayChatItemAction"]["actions"][0].keys()
+
+
+def _has_addLiveChatTickerItemAction(dat):
+    return (
+        "addLiveChatTickerItemAction"
+        in dat["replayChatItemAction"]["actions"][0].keys()
+    )
+
+
+def _has_liveChatViewerEngagementMessageRenderer(dat):
+    return (
+        "liveChatViewerEngagementMessageRenderer"
+        in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"]["item"].keys()
+    )
+
+
+def _has_liveChatPlaceholderItemRenderer(dat):
+    return (
+        "liveChatPlaceholderItemRenderer"
+        in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"]["item"].keys()
+    )
+
+
+def _has_removeBannerForLiveChatCommand(dat):
+    return "removeBannerForLiveChatCommand" in dat["replayChatItemAction"].keys()
+
+
+def _has_liveChatPaidMessageRenderer(dat):
+    return (
+        "liveChatPaidMessageRenderer"
+        in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"]["item"].keys()
+    )
+
+
+def _has_liveChatTextMessageRenderer(dat):
+    if _has_addChatItemAction(dat):
+        return (
+            "liveChatTextMessageRenderer"
+            in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
+                "item"
+            ].keys()
+        )
+    # has_clickTrackingParams()
+
+
+def _has_clickTrackingParams(dat):
+    return "clickTrackingParams" in dat
+
+
 def make_dataframe(file_path):
     lines = open_files2list(file_path)
-    comments, _ = split_comment_and_clickTrackingParams(lines)
+    # comments, click_tp = split_comment_and_clickTrackingParams(lines)
     message_dict = {
         "offset_time": [],
         "timestamp_text": [],
@@ -55,44 +106,48 @@ def make_dataframe(file_path):
         "fee": [],
     }
 
-    for dat in comments:
+    # TODO:addChatItemActionとclickTrackingParamsで場合分けする
+    # replayChatItemAction のkey以降を渡せばうまく動くはずという仮説がある
+    for dat in lines:
+        dat = json.loads(dat)
+
+        # おそらくslow_modeを配信者が設定したお知らせ。
         if (
             "removeBannerForLiveChatCommand"
             in dat["replayChatItemAction"]["actions"][0].keys()
         ):
-            # おそらくslow_modeを配信者が設定したお知らせ。
             continue
 
+        # ピン止めされたコメントについての行
         elif (
             "addBannerToLiveChatCommand"
             in dat["replayChatItemAction"]["actions"][0].keys()
         ):
-            # ピン止めされたコメントについての行
             continue
-        elif (
-            "liveChatTextMessageRenderer"
-            in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
-                "item"
-            ].keys()
-        ):
-            message_dict = make_dict_with_TextBox(dat, message_dict)
 
-        elif (
-            "liveChatPaidMessageRenderer"
-            in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
-                "item"
-            ].keys()
-        ):
+        # 「ライブチャット再生中」というyoutube上の表示
+        elif _has_addChatItemAction(dat):
+            if _has_liveChatViewerEngagementMessageRenderer(dat):
+                continue
+
+            if _has_liveChatTextMessageRenderer(dat):
+                message_dict = make_dict_with_TextBox(dat, message_dict)
+
+        elif _has_addLiveChatTickerItemAction(dat):
+            if (
+                "liveChatTextMessageRenderer"
+                in dat["replayChatItemAction"]["actions"][0][
+                    "addLiveChatTickerItemAction"
+                ]["item"].keys()
+            ):
+                message_dict = make_dict_with_TextBox(dat, message_dict)
+
+        elif (_has_addChatItemAction(dat)) and (_has_liveChatPaidMessageRenderer(dat)):
             message_dict = make_dict_with_SuperChatBox(dat, message_dict)
-        elif (
-            "liveChatPlaceholderItemRenderer"
-            in dat["replayChatItemAction"]["actions"][0]["addChatItemAction"][
-                "item"
-            ].keys()
-        ):
+        elif _has_addChatItemAction(dat) and _has_liveChatPlaceholderItemRenderer(dat):
             continue
 
-        elif "removeBannerForLiveChatCommand" in dat["replayChatItemAction"].keys():
+        elif _has_removeBannerForLiveChatCommand(dat):
             continue
 
     return pd.DataFrame(message_dict)
